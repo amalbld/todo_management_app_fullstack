@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HardcodedAuthentication } from '../service/hardcoded-authentication';
+import { BasicAuthentication } from '../service/basic-authentication';
+import { JWTAuthentication } from '../service/jwt.authentication';
 
 @Component({
   selector: 'login-component',
@@ -14,7 +16,12 @@ export class LoginComponent {
   userName: string = '';
   passWord = '';
 
-  constructor(private router: Router, private hardcodedAuthentication: HardcodedAuthentication) {}
+  constructor(
+    private router: Router,
+    private hardcodedAuthentication: HardcodedAuthentication,
+    private basicAuthentication: BasicAuthentication,
+    private jwtAuthentication: JWTAuthentication
+  ) {}
 
   nameRequired: boolean = false;
   passwordRequired: boolean = false;
@@ -25,7 +32,6 @@ export class LoginComponent {
     if (password.pristine) {
       this.passwordRequired = true;
     }
-    console.log(name);
   }
 
   onSubmit(form: NgForm) {
@@ -39,6 +45,46 @@ export class LoginComponent {
       this.passWord = '';
       this.nameRequired = true;
       this.passwordRequired = true;
+    }
+  }
+
+  onSubmitBasicAuthentication(form: NgForm) {
+    if (form.valid) {
+      this.basicAuthentication
+        .executeAuthenticationBeanService(this.userName, this.passWord)
+        .subscribe(
+          (data) => {
+            console.log(data);
+            this.router.navigate(['welcome', this.userName]);
+          },
+          (error) => {
+            console.log(error);
+            this.userName = '';
+            this.passWord = '';
+            this.nameRequired = true;
+            this.passwordRequired = true;
+          }
+        );
+    }
+  }
+
+  onSubmitJWTAuthentication(form: NgForm) {
+    if (form.valid) {
+      this.jwtAuthentication
+        .executeJWTAuthenticationBeanService(this.userName, this.passWord)
+        .subscribe(
+          (data) => {
+            console.log(data);
+            this.router.navigate(['welcome', this.userName]);
+          },
+          (error) => {
+            console.log(error);
+            this.userName = '';
+            this.passWord = '';
+            this.nameRequired = true;
+            this.passwordRequired = true;
+          }
+        );
     }
   }
 }

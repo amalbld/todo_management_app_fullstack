@@ -3,7 +3,9 @@
     <h1>Login!</h1>
   </div>
   <div class="container">
-    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <!-- <form #form="ngForm" (ngSubmit)="onSubmit(form)"> -->
+    <!-- <form #form="ngForm" (ngSubmit)="onSubmitBasicAuthentication(form)"> -->
+    <form #form="ngForm" (ngSubmit)="onSubmitJWTAuthentication(form)">
       <div class="form-group">
         <label class="form-label">User Name:</label>
         <input
