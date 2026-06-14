@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="container">
+    <h1>Login!</h1>
+  </div>
+  <div class="container">
+    <!-- <form #form="ngForm" (ngSubmit)="onSubmit(form)"> -->
+    <!-- <form #form="ngForm" (ngSubmit)="onSubmitBasicAuthentication(form)"> -->
+    <form #form="ngForm" (ngSubmit)="onSubmitJWTAuthentication(form)">
+      <div class="form-group">
+        <label class="form-label">User Name:</label>
+        <input
+          required
+          type="text"
+          class="form-control"
+          placeholder="enter user name"
+          name="username"
+          #name="ngModel"
+          [(ngModel)]="userName"
+        />
+        <div class="alert alert-danger" *ngIf="(name.touched || nameRequired) && name.invalid">
+          User name invalid
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password :</label>
+        <input
+          required
+          type="password"
+          class="form-control"
+          placeholder="enter password"
+          name="password"
+          #password="ngModel"
+          [(ngModel)]="passWord"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="(password.touched || passwordRequired) && password.invalid"
+        >
+          Password invalid
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">User Name :</label>
+        {{ userName }}
+      </div>
+      <button type="submit" class="btn btn-info" name="login" (click)="handleLogin(name, password)">
+        Login
+      </button>
+    </form>
+  </div>
+</div>
